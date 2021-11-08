@@ -32,7 +32,7 @@ Alert Span Should Be
     [Arguments]     ${expected_alert}
 
     Wait For Elements State     css=span[class=error] >> text=${expected_alert}    visible     5
-
+   
 
 Alert Spans Should Be
     [Arguments]     ${expected_alerts}
