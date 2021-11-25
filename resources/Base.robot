@@ -8,6 +8,7 @@ Library         factories/Users.py
 Resource        actions/_SharedActions.robot
 Resource        actions/SignupActions.robot
 Resource        actions/AuthActions.robot
+Resource        actions/GeekActions.robot
 
 Resource        Database.robot
 Resource        Helpers.robot
@@ -22,5 +23,5 @@ Start Session
 
 
 End Session
-    Take Screenshot
+    Take Screenshot     fullPage=true
 

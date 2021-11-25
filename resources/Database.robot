@@ -27,4 +27,15 @@ Insert User
     ${q}    Set Variable    INSERT INTO public.users (name, email, password_hash, is_geek) values ('${u}[name] ${u}[lastname]', '${u}[email]', '${hashed_pass}', false)
 
 
-    Execute SQL String  ${q}      
+    Execute SQL String  ${q}    
+
+Users Seed
+    
+    ${user}     Factory User    login
+    Insert User     ${user}
+
+    ${user2}    Factory User    be_geek
+    Insert User     ${user2}
+
+    ${user3}    Factory User    short_desc
+    Insert User     ${user3}

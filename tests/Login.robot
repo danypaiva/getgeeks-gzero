@@ -1,89 +1,73 @@
 *Settings*
-Documentation       Authorization test suite
-
-
-Resource    ${EXECDIR}/resources/Base.robot
+Documentation           Login test suite
+Resource        ${EXECDIR}/resources/Base.robot
 
 Test Setup      Start Session
 Test Teardown   End Session
 
-
 *Test Cases*
-User Login
+User login
 
-    ${user}     Factory User Login
-    Add User From Database    ${user}
-
+    ${user}                  Factory User       login
 
     Go To Login Page
-    Fill Credentials            ${user}
+    Fill Credentials        ${user}
     Submit Credentials
-    User Should Be Logged In    ${user}
-
+    User Should Be Logged In        ${user}
 
 Incorrect Pass
-    [tags]      i_pass
-
-    ${user}     Create Dictionary       email=danielagpaiva@gmail.com     password=abc123
-
-    Go To Login Page
-    Fill Credentials    ${user}
-    Submit Credentials
-    Modal Content Should Be     Usuário e/ou senha inválidos.
-
-
-User Not Found
-    [tags]      user_404
-
-    ${user}     Create Dictionary       email=danielagpaiva@404.net     password=abc123
+    [Tags]          inv_pass
+    ${user}         Create Dictionary       email=papito@hotmail.com        password=abc123
 
     Go To Login Page
     Fill Credentials    ${user}
     Submit Credentials
     Modal Content Should Be     Usuário e/ou senha inválidos.
 
+User not found
+    [Tags]          user_404
+    ${user}         Create Dictionary       email=papito@404.com        password=abc123
 
-Incorrect Email
-    [tags]      i_email
+    Go To Login Page
+    Fill Credentials    ${user}
+    Submit Credentials
+    Modal Content Should Be     Usuário e/ou senha inválidos.
 
-    ${user}     Create Dictionary       email=danielagpaiva.com.br     password=abc123
+Incorret Email
+    [Tags]          inv_email
+    ${user}         Create Dictionary       email=papito.com.br        password=abc123
 
     Go To Login Page
     Fill Credentials    ${user}
     Submit Credentials
     Should Be Type Email
 
-Login Without Email
-    [tags]      no_email
-
-    ${user}     Create Dictionary       email=                       password=abc123
+Required Email
+    [Tags]      temp
+    
+    ${user}         Create Dictionary       email=${EMPTY}      password=abc123
 
     Go To Login Page
-    Fill Credentials            ${user}
+    Fill Credentials    ${user}
     Submit Credentials
     Alert Span Should Be    E-mail obrigatório
 
-Login Without Password
-    [tags]      no_pass
-    
-    ${user}     Create Dictionary       email=danielagpaiva@gmail.com           password=
+Required Pass
+    [Tags]      temp
+    ${user}         Create Dictionary       email=papito@hotmail.com      password=${EMPTY}
 
     Go To Login Page
-    Fill Credentials            ${user}
+    Fill Credentials    ${user}
     Submit Credentials
     Alert Span Should Be    Senha obrigatória
 
 Required Fields
-    [tags]      reqfields
-
-    @{expected_alerts}          Create List
-    ...                         E-mail obrigatório
-    ...                         Senha obrigatória
-    
-    ${user}     Create Dictionary       email=                          password=
+    [Tags]      temp
+    @{expected_alerts}      Create List
+    ...                     E-mail obrigatório
+    ...                     Senha obrigatória
 
     Go To Login Page
-    Fill Credentials             ${user}
     Submit Credentials
-    Alert Spans Should Be        ${expected_alerts}    
+    Alert Spans Should Be    ${expected_alerts}
       
